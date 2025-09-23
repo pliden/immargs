@@ -1,0 +1,48 @@
+name: Build & Test
+run-name: Build & Test
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+env:
+  # Disable incremental compilation for faster from-scratch builds
+  CARGO_INCREMENTAL: 0
+
+jobs:
+  build-and-test-linux:
+    name: Build & Test Linux
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: rustup update
+    - run: cargo build --all-targets
+    - run: cargo clippy --all-targets -- --deny warnings
+    - run: cargo test --all-targets
+    - run: cargo fmt --check --verbose
+
+  build-and-test-macos:
+    name: Build & Test macOS
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: rustup update
+    - run: cargo build --all-targets
+    - run: cargo clippy --all-targets -- --deny warnings
+    - run: cargo test --all-targets
+    - run: cargo fmt --check --verbose
+
+  build-and-test-windows:
+    name: Build & Test Windows
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: rustup update
+    - run: cargo build --all-targets
+    - run: cargo clippy --all-targets -- --deny warnings
+    - run: cargo test --all-targets
+    - run: cargo fmt --check --verbose

@@ -1,0 +1,32 @@
+[workspace.package]
+version = "0.1.0"
+description = "No-hassle, on-the-spot, command line argument parser"
+authors = [ "Per Liden <per@malloc.se>" ]
+edition = "2024"
+license = "MIT OR Apache-2.0"
+homepage = "https://github.com/pliden/immargs"
+repository = "https://github.com/pliden/immargs"
+keywords = [ "command-line", "arguments", "args" ]
+
+[workspace]
+members = [ "immargs_macros" ]
+
+[package]
+name = "immargs"
+version.workspace = true
+description.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+homepage.workspace = true
+repository.workspace = true
+keywords.workspace = true
+include = [ "README.md", "CHANGELOG.md", "LICENSE-APACHE", "LICENSE-MIT", "src", "tests", "examples" ]
+
+[lib]
+
+[dependencies]
+immargs_macros = { version = "0.1.0", path = "immargs_macros" }
+
+[dev-dependencies]
+indoc = "2"
