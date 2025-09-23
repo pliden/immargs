@@ -1,5 +1,5 @@
-// Example of what argument parsing using immargs could look like for a program
-// like "ls".
+// Example of what argument parsing for a program like "ls" could look like,
+// using immargs_from_env!
 
 use immargs::immargs_from_env;
 use std::path::PathBuf;

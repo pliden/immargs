@@ -1,5 +1,7 @@
-// Example of what argument parsing using immargs could look like for a program
-// like "mv". Demonstrates that a variadic <src..> argument can be followed by a
+// Example of what argument parsing for a program like "mv" could look like,
+// using immargs_from_env!
+//
+// Demonstrates that a variadic <src..> argument can be followed by a
 // non-variadic <dest>.
 
 use immargs::immargs_from_env;

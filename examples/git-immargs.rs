@@ -1,5 +1,7 @@
-// Example of what argument parsing using immargs could look like for a program
-// like "git". Demonstrates short-/long-options, (sub)commands, variadic arguments,
+// Example of what argument parsing for a program like "git" could look like,
+// using immargs!
+//
+// Demonstrates short-/long-options, (sub)commands, variadic arguments,
 // conflicting arguments, etc.
 
 use immargs::immargs;
