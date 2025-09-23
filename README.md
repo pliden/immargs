@@ -19,7 +19,11 @@ Highlights:
 
 [Full documentation](https://docs.rs/immargs/)
 
-## Example
+## Basic Example
+
+Using `immargs_from_env!` for on-the-spot declaration and parsing of command line
+arguments. Returns an anonymous `struct` with fields corresponding to the declared
+arguments.
 
 ```rust
 use immargs::immargs_from_env;
@@ -41,6 +45,71 @@ assert!(args.src[1] == "Src1");
 assert!(args.dest == "Dest");
 ```
 
+## Advanced Example
+
+Using `immargs!` for declaring command line arguments.
+
+```rust
+use immargs::immargs;
+
+immargs! {
+    MainArgs,
+    -v --verbose           "enable verbose logging",
+    --version              "print version",
+    -h --help              "print help message",
+    <command> Command      "the command to run" {     // Command enum will be named "Command"
+        add                "add file(s)",
+        remove rm          "remove file(s)",
+        commit co c        "commit changes",
+    }
+}
+
+immargs! {
+    AddArgs,
+    -a --all            ?  "add all files",           // Conflicts with [<file>...]
+    --force                "overwrite destination",
+    -h --help              "print help message",
+    [<file>...] String  ?  "file(s) to add",          // Conflicts with -a, --all
+}
+
+immargs! {
+    RemoveArgs,
+    -r --recursive         "recursively remove files",
+    -h --help              "print help message",
+    <file>... String       "file(s) to remove",       // "..." means it's a variadic argument
+}
+
+immargs!(
+    CommitArgs,
+    -a --amend             "amend latest commit",
+    -h --help              "print help message",
+    [<message>] String     "commit message",          // "[ ]" means it's an optional argument
+);
+
+fn main() {
+    let main_args = MainArgs::from_env();
+    let verbose = main_args.verbose;
+
+    match main_args.command {
+        Command::Add(args) => add(verbose, args.into()),
+        Command::Remove(args) => remove(verbose, args.into()),
+        Command::Commit(args) => commit(verbose, args.into()),
+    }
+}
+
+fn add(verbose: bool, args: AddArgs) {
+    // ...
+}
+
+fn remove(verbose: bool, args: RemoveArgs) {
+    // ...
+}
+
+fn commit(verbose: bool, args: CommitArgs) {
+    // ...
+}
+```
+
 ## Command Line Argument Syntax
 
 The following [POSIX/GNU](https://www.gnu.org/software/libc/manual/html_node/Argument-Syntax.html)
@@ -51,7 +120,7 @@ argument syntax conventions are supported:
 * Short/Long option with attached value delimited by `=`, e.g. `-f=100` or `--foo=100`.
 * Short option with attached value without delimiter, e.g. `-f100`.
 * Combined short options, e.g. `-abc` is equivalent to `-a -b -c`.
-* Short/Long options may appear in any order, but before any non-option arguments.
+* Short/Long options may appear in any order, but must come before any non-option arguments.
 * Short/Long options may appear multiple times, the last appearance takes precedence unless
   it's a _variadic_ (repeatable) option, where the number of times the option appears has
   meaning, e.g. `-vvv` where each `-v` increases the verbosity level.

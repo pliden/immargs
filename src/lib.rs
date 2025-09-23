@@ -15,6 +15,9 @@
 //!
 //! # Basic Example
 //!
+//! This exanple is using [`immargs_from_env!`] for on-the-spot declaration and parsing of
+//! command line arguments.
+//!
 //! ```no_run
 //! use immargs::immargs_from_env;
 //!
@@ -66,56 +69,55 @@
 //!
 //! # Advanced Example
 //!
-//! In this example, the main program takes a command as its last argument. Any arguments
-//! following the command will be returned as an [`Args`] for further processing by the
-//! command's use of [`immargs!`]. A non-option argument enclosed by `[ ]` means that its an
-//! optional argument.
+//! This example is using [`immargs!`] to declare command line arguments. The main program
+//! takes a command as its last argument, and each (sub)command use [`immargs!`] do declare
+//! the arguments they each accept. Any arguments following the command will be returned as
+//! an [`Args`] that is part of the command enum, which is converted into the (sub)command
+//! arguments `struct` using [`into()`](Args::into).
 //!
 //! ```no_run
 //! use immargs::immargs;
 //!
 //! // The last argument is a command, with available commands (and their aliases) enclosed
-//! // by braces. An `enum` with variants matching the commands will be generated. We declare
-//! // these arguments outside of the main function to be the MainArgs type visible
-//! // to the command functions.
+//! // by braces. An `enum`, with variants matching the commands, will be generated.
 //! immargs! {
-//!     MainArgs,                                         // The argument struct will be called "MainArgs"
-//!     -v --verbose           "Enable verbose logging",  // An option
-//!     -h --help              "Print help message",      // --help enables automatic help generation
-//!     <command> Command      "The command to run" {     // The command enum will be named "Command"
-//!         add                "Add file(s)",             // "add" has not aliases
-//!         remove rm          "Remove file(s)",          // "rm" is an alias for "remove"
-//!         commit co c        "Commit changes",          // "co" and "c" are aliases for "commit"
+//!     MainArgs,                                         // Argument struct will be called "MainArgs"
+//!     -v --verbose           "enable verbose logging",  // An option
+//!     --version              "print version",           // --version enables automatic version printing
+//!     -h --help              "print help message",      // --help enables automatic help printing
+//!     <command> Command      "the command to run" {     // Command enum will be named "Command"
+//!         add                "add file(s)",             // "add" has no aliases
+//!         remove rm          "remove file(s)",          // "rm" is an alias for "remove"
+//!         commit co c        "commit changes",          // "co" and "c" are aliases for "commit"
 //!     }
 //! }
 //!
-//! // The "!" indicates that these are conflicting arguments, i.e. they can't be
-//! // used at the same time.
+//! // The "?" indicates that these are conflicting arguments, i.e. they can't be
+//! // used at the same time, but one of them must be present on the command line.
 //! immargs! {
 //!     AddArgs,
-//!     -a --all            !  "Add all files",           // Conflicts with [file...]
-//!     --force                "Overwrite destination",
-//!     -h --help              "Print help message",
-//!     [<file>...] String  !  "File(s) to add",          // Conflicts with -a, --all
+//!     -a --all            ?  "add all files",           // Conflicts with [<file>...]
+//!     --force                "overwrite destination",
+//!     -h --help              "print help message",
+//!     [<file>...] String  ?  "file(s) to add",          // Conflicts with -a, --all
 //! }
 //!
 //! immargs! {
 //!     RemoveArgs,
-//!     -r --recursive         "Recursively remove files",
-//!     -h --help              "Print help message",
-//!     <file>... String       "File(s) to remove",       // The "..." means it's a variadic argument
+//!     -r --recursive         "recursively remove files",
+//!     -h --help              "print help message",
+//!     <file>... String       "file(s) to remove",       // "..." means it's a variadic argument
 //! }
 //!
 //! immargs!(
 //!     CommitArgs,
-//!     -a --amend             "Amend latest commit",
-//!     -h --help              "Print help message",
-//!     [<message>] String     "Commit message",          // The "[ ]" means it's an optional argument
+//!     -a --amend             "amend latest commit",
+//!     -h --help              "print help message",
+//!     [<message>] String     "commit message",          // "[ ]" means it's an optional argument
 //! );
 //!
 //! fn main() {
 //!     let main_args = MainArgs::from_env();
-//!
 //!     let verbose = main_args.verbose;
 //!
 //!     match main_args.command {
@@ -145,7 +147,7 @@
 //!
 //! Terms and definitions used by `immargs` (mostly derived from [POSIX] and [GNU] definitions):
 //!
-//! * __Arguments__ - The umbrella term for all kinds strings that appear on the command line.
+//! * __Arguments__ - The umbrella term for all kinds of strings that appear on the command line.
 //!   _Arguments_ are further divided into _options_ and _non-options_.
 //!
 //! * __Options__ - The subset of _arguments_ that start with `-` or `--`, e.g. `-v` or
@@ -172,7 +174,7 @@
 //!   In text, _required non-options_ are represented by enclosing `<` `>`, e.g. `<file>`.
 //!
 //! * __Optional non-option__ - A _non-options_ that doesn't have to be present on the command
-//!   line. In text, _optional non-options_ are represented by enclosing `[` `]`, e.g. `[file]`.
+//!   line. In text, _optional non-options_ are represented by enclosing `[<` `>]`, e.g. `[<file>]`.
 //!
 //! * __Variadic option__ - An _option_ that is materialized from multiple separate instances
 //!   of the option, as opposed to the last instance taking precedence.
@@ -197,7 +199,7 @@
 //! * Short/Long option with attached value delimited by `=`, e.g. `-f=100` or `--foo=100`.
 //! * Short option with attached value without delimiter, e.g. `-f100`.
 //! * Combined short options, e.g. `-abc` is equivalent to `-a -b -c`.
-//! * Short/Long options may appear in any order, but before any non-option arguments.
+//! * Short/Long options may appear in any order, but must come before any non-option arguments.
 //! * Short/Long options may appear multiple times, the last appearance takes precedence unless
 //!   it's a _variadic_ (repeatable) option, where the number of times the option appears has
 //!   meaning, e.g. `-vvv` where each `-v` increases the verbosity level.
@@ -210,12 +212,12 @@
 //!
 //! #### Field Names
 //!
-//! The field names of the `struct` returned by [`immargs!()`](immargs!) are derived as follows:
+//! The field names of the `struct` generated by [`immargs!`] are derived as follows.
 //!
 //! | Argument Type | Field Name | Example |
 //! | - | - | - |
 //! | Option | Field name is direved from the first long-option (or the first short-option if no long-option exists) | `--foo` uses field name `foo` |
-//! | Non-Option | Field name is derived from the non--option name | `<bar> T` uses field name `bar` |
+//! | Non-Option | Field name is derived from the non-option name | `<bar> T` uses field name `bar` |
 //!
 //! Note that the specified option and non-option names must be valid Rust identifiers, as they
 //! will become the names of the `struct` fields. However, the names visible to the user of the
@@ -240,7 +242,7 @@
 //!
 //! #### Field Types
 //!
-//! The field types of the `struct` returned by [`immargs!()`](immargs!) are derived as follows:
+//! The field types of the `struct` generated by [`immargs!`] are derived as follows.
 //!
 //! | Argument Type | Example | Field Type |
 //! | - | - | - |
@@ -248,36 +250,58 @@
 //! | Option with Value | `--foo <bar> T` | `Option<T>` |
 //! | Variadic Option | `--foo...` | `usize` |
 //! | Variadic Option with Value | `--foo... <bar> T` | `Vec<T>` |
-//! | Required Argument (non-option) | `<foo> T` | `T` |
-//! | Optional Argument (non-option) | `[foo] T` | `Option<T>` |
-//! | Required Variadic Argument (non-option) | `<foo>... T` | `Vec<T>` (with lenth > 0) |
-//! | Optional Variadic Argument (non-option) | `[<foo>...] T` | `Vec<T>` (with lenth >= 0) |
-//! | Required Command Argument (non-option) | `<foo> [...]` | `(&'static str, immargs::Args)` |
-//! | Optional Command Argument (non-option) | `[foo] [...]` | `Option<(&'static str, immargs::Args)>` |
+//! | Required Non-option | `<foo> T` | `T` |
+//! | Optional Non-option | `[<foo>] T` | `Option<T>` |
+//! | Required Variadic Non-option | `<foo>... T` | `Vec<T>` (with lenth > 0) |
+//! | Optional Variadic Non-option | `[<foo>...] T` | `Vec<T>` (with lenth >= 0) |
+//! | Required Command Non-option | `<foo> T` | `T(`[`Args`]`)` |
+//! | Optional Command Non-option | `[<foo>] T` | `Option<T(`[`Args`]`)>` |
+//!
+//! #### Methods
+//!
+//! The following methods are available on arguments `struct`s generated by [`immargs!`].
+//!
+//! | Method | Return Type |
+//! | - | - |
+//! | `from_env()` | `Self` |
+//! | `from<T: IntoIterator<Item: Into<String>>>(args: T)` | `Self` |
+//! | `try_from_env()` | `Result<Self>` |
+//! | `try_from<T: IntoIterator<Item: Into<String>>>(args: T)` | `Result<Self>` |
+//!
+//! Most applications would want to use `from_env()`, which uses arguments provided by
+//! [`std::env::args_os()`] and on failure prints an error message and terminates the
+//! program with an appropriate exit code.
+//!
+//! The other methods exist to allow applications to opt-out of the default behaviours
+//! provided by `from_env()`, such as explicltly providing the command line arguments to
+//! parse, or to implement custom error and help handling.
 //!
 //! # Conflicting Arguments
 //!
 //! An argument can be declared to be in conflict with one or more other arguments. This is
 //! useful when two or more arguments are incompatible or otherwise mutually exclusive. A
 //! conflict is declared using an `!` or `?` optionally followed by a _conflict-id_. The
-//! _conflict-id_ is an identitier used if there are more than one group of conflicting options.
-//! `!` means that zero or one of the options in the group is allowed to be present on the commane
-//! line, while `?` means that exactly one of the options in the group is must be present on the
-//! command line.
+//! _conflict-id_ is an identitier used if there are more than one group of conflicting
+//! options. `!` (plain conflict) means that zero or one of the options in the group is
+//! allowed to be present on the command line, while `?` (choice) means that exactly one of
+//! the options in the group is must be present on the command line.
 //!
-//! Example with one group of conflicting arguments, without an explicit _conflict-id_:
+//! Example with one group of conflicting arguments, i.e. without an explicit _conflict-id_,
+//! where exacly one of them must be present on the command line:
 //!
 //! ```
 //! use immargs::immargs;
 //!
 //! immargs! {
 //!     --verbose,                   // Doesn't conflict with any other argument
-//!     --all                 !,     // Conflicts with [names...]
-//!     [<names>...] String   !,     // Conflicts with --all
+//!     --all                 ?,     // Conflicts with [names...]
+//!     [<names>...] String   ?,     // Conflicts with --all
 //! }
 //! ```
 //!
-//! Example with two groups of conflicting arguments, where one argument is part of both groups:
+//! Example with two groups (`B_C` and `C_D_E`) of conflicting arguments, where one argument is
+//! part of both groups. Exactly one of the options in group `B_C` must be present, and zero or
+//! one of the options in group `C_D_E` is allowed to be present on the command line.
 //!
 //! ```
 //! use immargs::immargs;
@@ -294,19 +318,18 @@
 //! # Help and Version
 //!
 //! Options with long-option names `--help` and `--version` are special. These options are
-//! intercepted during arguments parsing and will not be visible, or have a corresponding field,
-//! in the arguments `struct` generated by [`immargs!`]. Instead these options will cause an
-//! [`Help`](Error::Help) or [`Version`](Error::Version) error to be generated. When parsing
-//! arguments using `from_env()` or `from()`, these errors never reach the application.
-//!
-//! An application that wants to do display a custom help message or version information would
-//! instead use `try_from_env()` or `try_from()` to catch these errors display an appropriate
-//! message.
+//! intercepted during arguments parsing and will not be visible, or have corresponding fields,
+//! in the arguments `struct` generated by [`immargs!`]. When parsing the command line using
+//! `from()` or `from_env()`, these options will cause a version or help message to be displayed
+//! and the application will be terminated. When parsing the command line using `try_from()` or
+//! `try_from_env()` these options will instead generate a [`Help`](Error::Help) or
+//! [`Version`](Error::Version) error, which the application can react to, e.g. if the application
+//! wants to display custom version or help messages.
 //!
 //! # Unicode
 //!
 //! Non-unicode command line arguments will be converted to unicode using
-//! [`to_string_lossy()`](std::ffi::OsStr::to_string_lossy).
+//! [`to_string_lossy()`](std::ffi::OsStr::to_string_lossy) before they are parsed.
 //!
 //! # `immargs!()` Syntax
 //!
@@ -323,7 +346,7 @@
 //!                 \[ `...` \]
 //!                 \[ `<` ___Value___ `>` ___Type___ \]
 //!                 \[ `!` \[ ___ConflictId___ \] \]*
-//!                 \[ `?` \[ ___ChoiceId___ \] \]*
+//!                 \[ `?` \[ ___ConflictId___ \] \]*
 //!                 \[ ___Help___ \]
 //!                 `,`
 //!
@@ -333,7 +356,7 @@
 //!                            \[ `...` \]
 //!                            ___Type___
 //!                            \[ `!` \[ ___ConflictId___ \] \]*
-//!                            \[ `?` \[ ___ChoiceId___ \] \]*
+//!                            \[ `?` \[ ___ConflictId___ \] \]*
 //!                            \[ ___Help___ \]
 //!                            \[ ___Commands___ \]
 //!                            `,`
@@ -341,7 +364,7 @@
 //! ___OptionalNonOption___ := `[<` ___Name___ `>` \[ `...` \] `]`
 //!                            ___Type___
 //!                            \[ `!` \[ ___ConflictId___ \] \]*
-//!                            \[ `?` \[ ___ChoiceId___ \] \]*
+//!                            \[ `?` \[ ___ConflictId___ \] \]*
 //!                            \[ ___Help___ \]
 //!                            \[ ___Commands___ \]
 //!                            `,`
@@ -356,8 +379,7 @@
 //! ___Value___ /
 //! ___Name___ /
 //! ___Alias___ /
-//! ___ConflictId___ /
-//! ___ChoiceId___ := A Rust [non-keyword identifier](https://doc.rust-lang.org/reference/identifiers.html)
+//! ___ConflictId___ := A Rust [non-keyword identifier](https://doc.rust-lang.org/reference/identifiers.html)
 //!
 //! ___Type___ := A Rust type that implements [`FromStr`](std::str::FromStr) + [`Debug`](std::fmt::Debug)
 //!
@@ -385,8 +407,8 @@
 //!
 //! -f                       !  "Help text",   // With default conflict-id
 //! --foo                    !  "Help text",   // ...
-//! -f --foo                 !  "Help text",   // ...
-//! -f --foo <bar> u64       !  "Help text",   // ...
+//! -f --foo                 ?  "Help text",   // ...
+//! -f --foo <bar> u64       ?  "Help text",   // ...
 //! -f --foo <bar> String !A !B "Help text",   // With conflict-ids "A" and "B"
 //!
 //! -f...                       "Help text",   // Variadic (repeatable) option
@@ -411,7 +433,7 @@
 //! [<foo>...] String,                         // Optional variadic argument name "foo" of type String
 //! [<foo>...] String "Help text",             // With help text
 //! [<foo>...] String ! "Help text",           // With default conflict-id
-//! [<foo>...] String !0 !1 "Help text",       // With conflict-ids 0 and 1
+//! [<foo>...] String !A !B "Help text",       // With conflict-ids "A" and "B"
 //!
 //! <command> [...] {                          // Required command argument
 //!     add,                                   // Command "add"
@@ -437,7 +459,7 @@
 //!     list ls l   "Help text for list",
 //! }
 //!
-//! <command> [...] !0 !1 "Help text" {        // With conflict-ids 0 and 1
+//! <command> [...] !A !B "Help text" {        // With conflict-ids "A" and "B"
 //!     add         "Help text for add",
 //!     remove rm   "Help text for remove",
 //!     list ls l   "Help text for list",
