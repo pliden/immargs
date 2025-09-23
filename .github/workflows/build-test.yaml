@@ -14,7 +14,7 @@ env:
   CARGO_INCREMENTAL: 0
 
 jobs:
-  build-and-test-linux:
+  build-test-linux:
     name: Build & Test Linux
     runs-on: ubuntu-latest
     steps:
@@ -26,7 +26,7 @@ jobs:
     - run: cargo fmt --check --verbose
     - run: cargo doc --workspace
 
-  build-and-test-macos:
+  build-test-macos:
     name: Build & Test macOS
     runs-on: macos-latest
     steps:
@@ -38,7 +38,7 @@ jobs:
     - run: cargo fmt --check --verbose
     - run: cargo doc --workspace
 
-  build-and-test-windows:
+  build-test-windows:
     name: Build & Test Windows
     runs-on: windows-latest
     steps:
