@@ -64,9 +64,8 @@ fn non_option_optional_variadic() {
     assert!(args.value[1] == "world");
 }
 
-// TODO: Fix all variadic tests
 #[test]
-fn non_option_mixed_variadic_0() {
+fn non_option_required_variadic_redistribute0() {
     immargs! {
         <value0> u64,
         <value1>... String,
