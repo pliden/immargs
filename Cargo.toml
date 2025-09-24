@@ -1,5 +1,5 @@
 [workspace.package]
-version = "0.1.1"
+version = "0.1.2"
 description = "No-hassle, on-the-spot, command line argument parser"
 authors = [ "Per Liden <per@malloc.se>" ]
 edition = "2024"
@@ -26,7 +26,7 @@ include = [ "README.md", "CHANGELOG.md", "LICENSE-APACHE", "LICENSE-MIT", "src",
 [lib]
 
 [dependencies]
-immargs_macros = { version = "0.1.1", path = "immargs_macros" }
+immargs_macros = { version = "0.1.2", path = "immargs_macros" }
 
 [dev-dependencies]
 indoc = "2"

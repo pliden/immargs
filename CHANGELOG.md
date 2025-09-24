@@ -1,3 +1,8 @@
+## 0.1.2
+
+* Updated documentation.
+* Added more examples.
+
 ## 0.1.1
 
 * Updated documentation.
