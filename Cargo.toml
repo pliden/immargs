@@ -6,7 +6,7 @@ edition = "2024"
 license = "MIT OR Apache-2.0"
 homepage = "https://github.com/pliden/immargs"
 repository = "https://github.com/pliden/immargs"
-keywords = [ "command-line", "arguments", "args" ]
+keywords = [ "args", "arguments", "cli", "command-line", "parser" ]
 
 [workspace]
 members = [ "immargs_macros" ]

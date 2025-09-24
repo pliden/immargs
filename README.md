@@ -9,7 +9,9 @@ __No-hassle, on-the-spot, command line argument parsing for Rust__
 Highlights:
 
 * Straightforward declaration of arguments with proc-macro.
-* Supports [POSIX](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap12.html)/[GNU](https://www.gnu.org/software/libc/manual/html_node/Argument-Syntax.html) argument syntax conventions.
+* Supports [POSIX](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap12.html) /
+[GNU](https://sourceware.org/glibc/manual/latest/html_node/Argument-Syntax.html)
+argument syntax conventions.
 * Supports arguments of any type that implements `FromStr` + `Debug`.
 * Supports (sub)commands, with aliases.
 * Supports declaration of conflicting arguments.
@@ -112,7 +114,9 @@ fn commit(verbose: bool, args: CommitArgs) {
 
 ## Command Line Argument Syntax
 
-The following [POSIX/GNU](https://www.gnu.org/software/libc/manual/html_node/Argument-Syntax.html)
+The following
+[POSIX](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap12.html) /
+[GNU](https://sourceware.org/glibc/manual/latest/html_node/Argument-Syntax.html)
 argument syntax conventions are supported:
 * Short option, `-` followed by a single character, e.g. `-f`.
 * Long option, `--` followed by two or more characters, e.g. `--foo`.
@@ -133,15 +137,13 @@ argument syntax conventions are supported:
 
 Licensed under either of
 
- * Apache License, Version 2.0
-   ([LICENSE-APACHE](LICENSE-APACHE) or <http://www.apache.org/licenses/LICENSE-2.0>)
- * MIT license
-   ([LICENSE-MIT](LICENSE-MIT) or <http://opensource.org/licenses/MIT>)
+ * [Apache License, Version 2.0](LICENSE-APACHE)
+ * [MIT License](LICENSE-MIT)
 
 at your option.
 
 ## Contribution
 
-Unless you explicitly state otherwise, any contribution intentionally submitted
-for inclusion in the work by you, as defined in the Apache-2.0 license, shall be
-dual licensed as above, without any additional terms or conditions.
+Any contribution intentionally submitted for inclusion in the work by you,
+as defined in the Apache-2.0 license, shall be dual licensed as above, without
+any additional terms or conditions.
