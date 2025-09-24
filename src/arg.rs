@@ -810,73 +810,60 @@ mod test {
 
     #[test]
     fn check_conflict_none_set() {
-        let mut a = option(&["-a"]).value::<u64>().conflicts(&["0"]);
-        let mut b = option(&["-b"]).value::<u64>().conflicts(&["0"]);
-        let mut c = non_option("<c>").value::<u64>().conflicts(&["0"]);
-        let mut d = non_option("<d>").value::<u64>().conflicts(&["0"]);
+        let mut a = option(&["-a"]).value::<u64>().conflicts(&["!"]);
+        let mut b = option(&["-b"]).value::<u64>().conflicts(&["!"]);
+        let mut c = non_option("<c>").value::<u64>().conflicts(&["!"]);
 
-        let result = super::check_conflicts_and_choices(
-            &[a.as_setter(), b.as_setter()],
-            &[c.as_setter(), d.as_setter()],
-        );
+        let result =
+            super::check_conflicts_and_choices(&[a.as_setter(), b.as_setter()], &[c.as_setter()]);
 
         assert!(result.is_ok());
     }
 
     #[test]
     fn check_conflict_one_set() {
-        let mut a = option(&["-a"]).value::<u64>().conflicts(&["0"]);
-        let mut b = option(&["-b"]).value::<u64>().conflicts(&["0"]);
-        let mut c = non_option("<c>").value::<u64>().conflicts(&["0"]);
-        let mut d = non_option("<d>").value::<u64>().conflicts(&["0"]);
+        let mut a = option(&["-a"]).value::<u64>().conflicts(&["!"]);
+        let mut b = option(&["-b"]).value::<u64>().conflicts(&["!"]);
+        let mut c = non_option("<c>").value::<u64>().conflicts(&["!"]);
 
         b.set("-b", "47".into()).unwrap();
 
-        let result = super::check_conflicts_and_choices(
-            &[a.as_setter(), b.as_setter()],
-            &[c.as_setter(), d.as_setter()],
-        );
+        let result =
+            super::check_conflicts_and_choices(&[a.as_setter(), b.as_setter()], &[c.as_setter()]);
 
         assert!(result.is_ok());
     }
 
     #[test]
     fn check_conflict_two_set() {
-        let mut a = option(&["-a"]).value::<u64>().conflicts(&["0"]);
-        let mut b = option(&["-b"]).value::<u64>().conflicts(&["0"]);
-        let mut c = non_option("<c>").value::<u64>().conflicts(&["0"]);
-        let mut d = non_option("<d>").value::<u64>().conflicts(&["0"]);
+        let mut a = option(&["-a"]).value::<u64>().conflicts(&["!"]);
+        let mut b = option(&["-b"]).value::<u64>().conflicts(&["!"]);
+        let mut c = non_option("<c>").value::<u64>().conflicts(&["!"]);
 
         b.set("-b", "47".into()).unwrap();
-        d.set("47".into()).unwrap();
+        c.set("47".into()).unwrap();
 
-        let result = super::check_conflicts_and_choices(
-            &[a.as_setter(), b.as_setter()],
-            &[c.as_setter(), d.as_setter()],
-        );
+        let result =
+            super::check_conflicts_and_choices(&[a.as_setter(), b.as_setter()], &[c.as_setter()]);
 
         let error = result.err().unwrap();
         assert!(matches!(error, Error::ConflictingArguments { arg0, arg1 }
-            if arg0 == "-b" && arg1 == "<d>"
+            if arg0 == "-b" && arg1 == "<c>"
         ));
     }
 
     #[test]
     fn check_conflict_all_set() {
-        let mut a = option(&["-a"]).value::<u64>().conflicts(&["0"]);
-        let mut b = option(&["-b"]).value::<u64>().conflicts(&["0"]);
-        let mut c = non_option("<c>").value::<u64>().conflicts(&["0"]);
-        let mut d = non_option("<d>").value::<u64>().conflicts(&["0"]);
+        let mut a = option(&["-a"]).value::<u64>().conflicts(&["!"]);
+        let mut b = option(&["-b"]).value::<u64>().conflicts(&["!"]);
+        let mut c = non_option("<c>").value::<u64>().conflicts(&["!"]);
 
         a.set("-a", "47".into()).unwrap();
         b.set("-b", "47".into()).unwrap();
         c.set("47".into()).unwrap();
-        d.set("47".into()).unwrap();
 
-        let result = super::check_conflicts_and_choices(
-            &[a.as_setter(), b.as_setter()],
-            &[c.as_setter(), d.as_setter()],
-        );
+        let result =
+            super::check_conflicts_and_choices(&[a.as_setter(), b.as_setter()], &[c.as_setter()]);
 
         let error = result.err().unwrap();
         assert!(matches!(error, Error::ConflictingArguments { arg0, arg1 }
@@ -885,26 +872,55 @@ mod test {
     }
 
     #[test]
-    fn check_choice() {
-        let mut a = option(&["-a"]).value::<u64>().conflicts(&["?0"]);
-        let mut b = option(&["-b"]).value::<u64>().conflicts(&["!0"]);
-        let mut c = non_option("<c>").value::<u64>().conflicts(&["?0"]);
-        let mut d = non_option("<d>").value::<u64>().conflicts(&["!0"]);
+    fn check_choice_none_set() {
+        let mut a = option(&["-a"]).value::<u64>().conflicts(&["?"]);
+        let mut b = option(&["-b"]).value::<u64>().conflicts(&["?"]);
+        let mut c = non_option("<c>")
+            .value::<u64>()
+            .optional()
+            .conflicts(&["?"]);
 
-        // FIXME
-        //a.set("-a", "47".into()).unwrap();
-        //b.set("-b", "47".into()).unwrap();
-        //c.set("47".into()).unwrap();
-        //d.set("47".into()).unwrap();
-
-        let result = super::check_conflicts_and_choices(
-            &[a.as_setter(), b.as_setter()],
-            &[c.as_setter(), d.as_setter()],
-        );
+        let result =
+            super::check_conflicts_and_choices(&[a.as_setter(), b.as_setter()], &[c.as_setter()]);
 
         let error = result.err().unwrap();
         assert!(matches!(error, Error::MissingChoice { alternatives }
-            if alternatives[0] == "-a" && alternatives[1] == "<c>"
+            if alternatives[0] == "-a" && alternatives[1] == "-b" && alternatives[2] == "<c>"
+        ));
+    }
+
+    #[test]
+    fn check_choice_one_set() {
+        let mut a = option(&["-a"]).value::<u64>().conflicts(&["?"]);
+        let mut b = option(&["-b"]).value::<u64>().conflicts(&["?"]);
+        let mut c = non_option("<c>")
+            .value::<u64>()
+            .optional()
+            .conflicts(&["?"]);
+
+        b.set("-b", "47".into()).unwrap();
+
+        let result =
+            super::check_conflicts_and_choices(&[a.as_setter(), b.as_setter()], &[c.as_setter()]);
+
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn check_choice_two_set() {
+        let mut a = option(&["-a"]).value::<u64>().conflicts(&["?"]);
+        let mut b = option(&["-b"]).value::<u64>().conflicts(&["?"]);
+        let mut c = non_option("<c>").value::<u64>().conflicts(&["?"]);
+
+        b.set("-b", "47".into()).unwrap();
+        c.set("47".into()).unwrap();
+
+        let result =
+            super::check_conflicts_and_choices(&[a.as_setter(), b.as_setter()], &[c.as_setter()]);
+
+        let error = result.err().unwrap();
+        assert!(matches!(error, Error::ConflictingArguments { arg0, arg1 }
+            if arg0 == "-b" && arg1 == "<c>"
         ));
     }
 }
