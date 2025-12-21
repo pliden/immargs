@@ -14,7 +14,7 @@ pub trait Value: Sized {
     fn parse(value: String) -> Result<Self>;
 }
 
-impl<T: FromStr<Err: Into<Box<dyn std::error::Error>>>> Value for T {
+impl<T: FromStr<Err: Into<Box<dyn std::error::Error + Send + Sync + 'static>>>> Value for T {
     fn parse(value: String) -> Result<Self> {
         match value.parse::<Self>() {
             Ok(value) => Ok(value),

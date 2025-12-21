@@ -54,7 +54,7 @@ pub enum Error {
         /// The value.
         value: String,
         /// The error returned by [`str::parse()`].
-        error: Box<dyn std::error::Error>,
+        error: Box<dyn std::error::Error + Send + Sync + 'static>,
     },
     /// Version information requested. Returned if option `--version` was used.
     Version {
