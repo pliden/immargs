@@ -7,7 +7,7 @@ fn error_invalid_option_short() {
 
     let args = ImmArgs::try_from(["test", "-i"]);
     assert!(matches!(&args, Err(Error::InvalidOption { option }) if option == "-i"));
-    assert!(matches!(&args, Err(e) if e.to_string() == "invalid option '-i'"));
+    assert!(matches!(&args, Err(e) if e.to_string() == "invalid option -i"));
 }
 
 #[test]
@@ -16,7 +16,7 @@ fn error_invalid_option_long() {
 
     let args = ImmArgs::try_from(["test", "--invalid"]);
     assert!(matches!(&args, Err(Error::InvalidOption { option }) if option == "--invalid"));
-    assert!(matches!(&args, Err(e) if e.to_string() == "invalid option '--invalid'"));
+    assert!(matches!(&args, Err(e) if e.to_string() == "invalid option --invalid"));
 }
 
 #[test]
@@ -25,7 +25,7 @@ fn error_invalid_argument() {
 
     let args = ImmArgs::try_from(["test", "invalid"]);
     assert!(matches!(&args, Err(Error::InvalidArgument { arg }) if arg == "invalid"));
-    assert!(matches!(&args, Err(e) if e.to_string() == "invalid argument 'invalid'"));
+    assert!(matches!(&args, Err(e) if e.to_string() == "invalid argument \"invalid\""));
 }
 
 #[test]
@@ -40,7 +40,7 @@ fn error_invalid_command() {
 
     let args = ImmArgs::try_from(["test", "invalid"]);
     assert!(matches!(&args, Err(Error::InvalidCommand { arg }) if arg == "invalid"));
-    assert!(matches!(&args, Err(e) if e.to_string() == "invalid command 'invalid'"));
+    assert!(matches!(&args, Err(e) if e.to_string() == "invalid command \"invalid\""));
 }
 
 #[test]
@@ -51,7 +51,7 @@ fn error_missing_argument() {
 
     let args = ImmArgs::try_from(["test"]);
     assert!(matches!(&args, Err(Error::MissingArgument { arg }) if arg == "<value>"));
-    assert!(matches!(&args, Err(e) if e.to_string() == "missing argument '<value>'"));
+    assert!(matches!(&args, Err(e) if e.to_string() == "missing argument <value>"));
 }
 
 #[test]
@@ -62,7 +62,7 @@ fn error_missing_value() {
 
     let args = ImmArgs::try_from(["test", "-f"]);
     assert!(matches!(&args, Err(Error::MissingValue { option }) if option == "-f"));
-    assert!(matches!(&args, Err(e) if e.to_string() == "missing value for option '-f'"));
+    assert!(matches!(&args, Err(e) if e.to_string() == "missing value for option -f"));
 }
 
 #[test]
@@ -77,7 +77,7 @@ fn error_unexpected_value() {
             if option == "-f" && value == "VALUE"
         )
     );
-    assert!(matches!(&args, Err(e) if e.to_string() == "unexpected value for option '-f': VALUE"));
+    assert!(matches!(&args, Err(e) if e.to_string() == "unexpected value for option -f: VALUE"));
 }
 
 #[test]
@@ -97,7 +97,7 @@ fn error_conflicting_arguments0() {
         )
     );
     assert!(matches!(&args, Err(e)
-        if e.to_string() == "conflicting arguments '--feature-a' and '<value>'"
+        if e.to_string() == "conflicting arguments: --feature-a and <value>"
     ));
 }
 
@@ -119,7 +119,7 @@ fn error_conflicting_arguments1() {
         )
     );
     assert!(matches!(&args, Err(e)
-        if e.to_string() == "conflicting arguments '--feature-c' and '<value-b>'"
+        if e.to_string() == "conflicting arguments: --feature-c and <value-b>"
     ));
 }
 
@@ -137,6 +137,6 @@ fn error_parsing_failed() {
         if value == parse_value && error.to_string() == parse_error
     ));
     assert!(matches!(&args, Err(e)
-        if e.to_string() == format!("cannot parse argument '{parse_value}': {parse_error}")
+        if e.to_string() == format!("cannot parse argument \"{parse_value}\": {parse_error}")
     ));
 }

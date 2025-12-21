@@ -72,36 +72,32 @@ impl Display for Error {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         match self {
             Self::InvalidOption { option } => {
-                write!(f, "invalid option '{option}'")
+                write!(f, "invalid option {option}")
             }
             Self::InvalidArgument { arg } => {
-                write!(f, "invalid argument '{arg}'")
+                write!(f, "invalid argument \"{arg}\"")
             }
             Self::InvalidCommand { arg } => {
-                write!(f, "invalid command '{arg}'")
+                write!(f, "invalid command \"{arg}\"")
             }
             Self::MissingArgument { arg } => {
-                write!(f, "missing argument '{arg}'")
+                write!(f, "missing argument {arg}")
             }
             Self::MissingChoice { alternatives } => {
-                let alts = alternatives
-                    .iter()
-                    .map(|alt| format!("'{alt}'"))
-                    .collect::<Vec<_>>()
-                    .join(" or ");
-                write!(f, "missing argument {alts}")
+                let alts = alternatives.join(" or ");
+                write!(f, "missing argument: {alts}")
             }
             Self::MissingValue { option } => {
-                write!(f, "missing value for option '{option}'")
+                write!(f, "missing value for option {option}")
             }
             Self::UnexpectedValue { option, value } => {
-                write!(f, "unexpected value for option '{option}': {value}")
+                write!(f, "unexpected value for option {option}: {value}")
             }
             Self::ConflictingArguments { arg0, arg1 } => {
-                write!(f, "conflicting arguments '{arg0}' and '{arg1}'")
+                write!(f, "conflicting arguments: {arg0} and {arg1}")
             }
             Self::ParsingFailed { value, error } => {
-                write!(f, "cannot parse argument '{value}': {error}")
+                write!(f, "cannot parse argument \"{value}\": {error}")
             }
             Self::Version { message } => {
                 write!(f, "{message}")
