@@ -23,14 +23,14 @@ argument syntax conventions.
 
 ## Basic Example
 
-Using `immargs_from_env!` for on-the-spot declaration and parsing of command line
+Using `args_from_env!` for on-the-spot declaration and parsing of command line
 arguments. Returns an anonymous `struct` with fields corresponding to the declared
 arguments.
 
 ```rust
-use immargs::immargs_from_env;
+use immargs::args_from_env;
 
-let args = immargs_from_env! {
+let args = args_from_env! {
     --force               "overwrite destination",
     -l --log <level> u8   "set log level",
     -h --help             "print help message",
@@ -49,12 +49,12 @@ assert!(args.dest == "Dest");
 
 ## Advanced Example
 
-Using `immargs!` for declaring command line arguments.
+Using `args!` to declare command line arguments.
 
 ```rust
-use immargs::immargs;
+use immargs::args;
 
-immargs! {
+args! {
     MainArgs,
     -v --verbose           "enable verbose logging",
     --version              "print version",
@@ -66,7 +66,7 @@ immargs! {
     }
 }
 
-immargs! {
+args! {
     AddArgs,
     -a --all            ?  "add all files",           // Conflicts with [<file>...]
     --force                "overwrite destination",
@@ -74,14 +74,14 @@ immargs! {
     [<file>...] String  ?  "file(s) to add",          // Conflicts with -a, --all
 }
 
-immargs! {
+args! {
     RemoveArgs,
     -r --recursive         "recursively remove files",
     -h --help              "print help message",
     <file>... String       "file(s) to remove",       // "..." means it's a variadic argument
 }
 
-immargs!(
+args!(
     CommitArgs,
     -a --amend             "amend latest commit",
     -h --help              "print help message",

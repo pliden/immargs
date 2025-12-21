@@ -1,11 +1,11 @@
-use immargs::immargs;
+use immargs::args;
 use std::ffi::OsString;
 use std::net::Ipv4Addr;
 use std::path::PathBuf;
 
 #[test]
 fn type_none() {
-    immargs! {
+    args! {
         --flag,
     }
 
@@ -15,7 +15,7 @@ fn type_none() {
 
 #[test]
 fn type_bool() {
-    immargs! {
+    args! {
         --value <value> bool,
     }
 
@@ -25,7 +25,7 @@ fn type_bool() {
 
 #[test]
 fn type_char() {
-    immargs! {
+    args! {
         --value <value> char,
     }
 
@@ -35,7 +35,7 @@ fn type_char() {
 
 #[test]
 fn type_u8() {
-    immargs! {
+    args! {
         --value <value> u8,
     }
 
@@ -45,7 +45,7 @@ fn type_u8() {
 
 #[test]
 fn type_u16() {
-    immargs! {
+    args! {
         --value <value> u16,
     }
 
@@ -55,7 +55,7 @@ fn type_u16() {
 
 #[test]
 fn type_u32() {
-    immargs! {
+    args! {
         --value <value> u32,
     }
 
@@ -65,7 +65,7 @@ fn type_u32() {
 
 #[test]
 fn type_u64() {
-    immargs! {
+    args! {
         --value <value> u64,
     }
 
@@ -75,7 +75,7 @@ fn type_u64() {
 
 #[test]
 fn type_u128() {
-    immargs! {
+    args! {
         --value <value> u128,
     }
 
@@ -85,7 +85,7 @@ fn type_u128() {
 
 #[test]
 fn type_i8() {
-    immargs! {
+    args! {
         --value <value> i8,
     }
 
@@ -95,7 +95,7 @@ fn type_i8() {
 
 #[test]
 fn type_i16() {
-    immargs! {
+    args! {
         --value <value> i16,
     }
 
@@ -105,7 +105,7 @@ fn type_i16() {
 
 #[test]
 fn type_i32() {
-    immargs! {
+    args! {
         --value <value> i32,
     }
 
@@ -115,7 +115,7 @@ fn type_i32() {
 
 #[test]
 fn type_i64() {
-    immargs! {
+    args! {
         --value <value> i64,
     }
 
@@ -125,7 +125,7 @@ fn type_i64() {
 
 #[test]
 fn type_i128() {
-    immargs! {
+    args! {
         --value <value> i128,
     }
 
@@ -135,7 +135,7 @@ fn type_i128() {
 
 #[test]
 fn type_f32() {
-    immargs! {
+    args! {
         --value <value> f32,
     }
 
@@ -145,7 +145,7 @@ fn type_f32() {
 
 #[test]
 fn type_f64() {
-    immargs! {
+    args! {
         --value <value> f64,
     }
 
@@ -155,7 +155,7 @@ fn type_f64() {
 
 #[test]
 fn type_string() {
-    immargs! {
+    args! {
         --value <value> String,
     }
 
@@ -165,7 +165,7 @@ fn type_string() {
 
 #[test]
 fn type_os_string() {
-    immargs! {
+    args! {
         --value <value> OsString,
     }
 
@@ -175,7 +175,7 @@ fn type_os_string() {
 
 #[test]
 fn type_pathbuf() {
-    immargs! {
+    args! {
         --value <value> PathBuf,
     }
 
@@ -185,7 +185,7 @@ fn type_pathbuf() {
 
 #[test]
 fn type_ipv4addr() {
-    immargs! {
+    args! {
         --value <value> Ipv4Addr,
     }
 

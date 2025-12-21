@@ -1,10 +1,10 @@
 // Example of what argument parsing for a program like "ls" could look like,
-// using immargs!
+// using args!
 
-use immargs::immargs;
+use immargs::args;
 use std::path::PathBuf;
 
-immargs! {
+args! {
     Args,
     -a --all             ?  "do not ignore entries starting with .",
     -l --long               "use a long listing format",

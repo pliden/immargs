@@ -1,5 +1,5 @@
 use immargs::Error;
-use immargs::immargs;
+use immargs::args;
 use indoc::indoc;
 
 macro_rules! assert_help {
@@ -14,7 +14,7 @@ macro_rules! assert_help {
 
 #[test]
 fn help_empty() {
-    immargs! {
+    args! {
         -h --help   "Print help message",
     }
 
@@ -31,7 +31,7 @@ fn help_empty() {
 
 #[test]
 fn help_option() {
-    immargs! {
+    args! {
         --aaa                   "Help aaa",
         -b --bbb                "Help bbb",
         -x -y -z --ccc          "Help ccc",
@@ -58,7 +58,7 @@ fn help_option() {
 
 #[test]
 fn help_non_option_required() {
-    immargs! {
+    args! {
         -h --help        "Print help message",
         <aaa> String     "Help aaa",
         <bbb>... String  "Help bbb",
@@ -81,7 +81,7 @@ fn help_non_option_required() {
 
 #[test]
 fn help_non_option_optional() {
-    immargs! {
+    args! {
         -h --help          "Print help message",
         [<aaa>] String     "Help aaa",
         [<bbb>...] String  "Help bbb",
@@ -104,7 +104,7 @@ fn help_non_option_optional() {
 
 #[test]
 fn help_non_option_no_help() {
-    immargs! {
+    args! {
         -h --help        "Print help message",
         <aaa> String,
         [<bbb>...] String,
@@ -123,7 +123,7 @@ fn help_non_option_no_help() {
 
 #[test]
 fn help_non_option_command() {
-    immargs! {
+    args! {
         -h --help           "Print help message",
         <command> Command   "This is a command" {
             add             "Add file(s)",

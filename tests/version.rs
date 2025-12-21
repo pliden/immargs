@@ -1,9 +1,9 @@
 use immargs::Error;
-use immargs::immargs;
+use immargs::args;
 
 #[test]
 fn version() {
-    immargs! {
+    args! {
         -v --version,
     }
 

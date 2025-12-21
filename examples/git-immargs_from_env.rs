@@ -1,21 +1,21 @@
 // Example of what argument parsing for a program like "git" could look like,
-// using immargs_from_env!
+// using args_from_env!
 //
 // Demonstrates short-/long-options, (sub)commands, variadic arguments,
 // conflicting arguments, etc.
 //
-// Unlike immargs!, immargs_from_env! returns an anonymous struct and an
+// Unlike args!, args_from_env! returns an anonymous struct and an
 // anonymous command enum, which means we can't use a match-statement on
 // the command enum. Instead we convert the command enum to a &str using
 // into_str().
 
 use immargs::Args;
-use immargs::immargs_from;
-use immargs::immargs_from_env;
+use immargs::args_from;
+use immargs::args_from_env;
 use std::path::PathBuf;
 
 fn main() {
-    let args = immargs_from_env! {
+    let args = args_from_env! {
         -C --dir <path> PathBuf     "set working directory",
         --version                   "print version information",
         -h --help                   "print help message",
@@ -42,7 +42,7 @@ fn main() {
 }
 
 fn git_clone(args: Args) {
-    let args = immargs_from! {
+    let args = args_from! {
         args,
         --progress                  "enable progress reporting",
         -n --no_checkout            "don't create a checkout",
@@ -59,7 +59,7 @@ fn git_clone(args: Args) {
 }
 
 fn git_add(args: Args) {
-    let args = immargs_from! {
+    let args = args_from! {
         args,
         -A --all                 ?  "add changes from all tracked and untracked files",
         -u --update              ?  "update tracked files",
@@ -74,7 +74,7 @@ fn git_add(args: Args) {
 }
 
 fn git_move(args: Args) {
-    let args = immargs_from! {
+    let args = args_from! {
         args,
         -f --force                  "force move/rename even if target exists",
         -h --help                   "print help message",
@@ -89,7 +89,7 @@ fn git_move(args: Args) {
 }
 
 fn git_commit(args: Args) {
-    let args = immargs_from! {
+    let args = args_from! {
         args,
         -a --all                 ?  "commit all changed files",
         --amend                     "amend previous commit",

@@ -1,14 +1,14 @@
 // Example of what argument parsing for a program like "mv" could look like,
-// using immargs_from_env!
+// using args_from_env!
 //
 // Demonstrates that a variadic <src..> argument can be followed by a
 // non-variadic <dest>.
 
-use immargs::immargs_from_env;
+use immargs::args_from_env;
 use std::path::PathBuf;
 
 fn main() {
-    let args = immargs_from_env! {
+    let args = args_from_env! {
         -f --force        "do not prompt before overwriting",
         --version         "print version information",
         -h --help         "print help message",

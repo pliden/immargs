@@ -27,7 +27,7 @@ macro_rules! catch_error {
 ///
 /// ## Syntax Specification
 ///
-/// `immargs! {`
+/// `args! {`
 ///     \[ ___StructName___ `,` \]
 ///     \[ ___Option___ `,` \]*
 ///     \[ ___NonOption___ `,` \]*
@@ -155,7 +155,7 @@ macro_rules! catch_error {
 /// }
 /// ```
 #[proc_macro]
-pub fn immargs(input: TokenStream) -> TokenStream {
+pub fn args(input: TokenStream) -> TokenStream {
     let ast = parse_macro_input!(input as Ast);
     let ir = catch_error!(lower(ast));
     let code = catch_error!(emit(ir));

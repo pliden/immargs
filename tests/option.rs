@@ -1,8 +1,8 @@
-use immargs::immargs;
+use immargs::args;
 
 #[test]
 fn option_single_short_char() {
-    immargs! {
+    args! {
         -f,
     }
 
@@ -12,7 +12,7 @@ fn option_single_short_char() {
 
 #[test]
 fn option_single_short_int() {
-    immargs! {
+    args! {
         -_1,
     }
 
@@ -22,7 +22,7 @@ fn option_single_short_int() {
 
 #[test]
 fn option_multiple_shorts() {
-    immargs! {
+    args! {
         -f -_1,
     }
 
@@ -32,7 +32,7 @@ fn option_multiple_shorts() {
 
 #[test]
 fn option_single_long() {
-    immargs! {
+    args! {
         --flag,
     }
 
@@ -42,7 +42,7 @@ fn option_single_long() {
 
 #[test]
 fn option_multiple_longs() {
-    immargs! {
+    args! {
         --flag --alias,
     }
 
@@ -52,7 +52,7 @@ fn option_multiple_longs() {
 
 #[test]
 fn option_short_and_long() {
-    immargs! {
+    args! {
         -f --flag,
     }
 
@@ -62,7 +62,7 @@ fn option_short_and_long() {
 
 #[test]
 fn option_multiple_shorts_and_long() {
-    immargs! {
+    args! {
         -f -F --flag,
     }
 
@@ -72,7 +72,7 @@ fn option_multiple_shorts_and_long() {
 
 #[test]
 fn option_variadic_on_value() {
-    immargs! {
+    args! {
         -f --flag...,
     }
 
@@ -82,7 +82,7 @@ fn option_variadic_on_value() {
 
 #[test]
 fn option_variadic_value() {
-    immargs! {
+    args! {
         -v --value... <value> String,
     }
 

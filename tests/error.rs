@@ -1,9 +1,9 @@
 use immargs::Error;
-use immargs::immargs;
+use immargs::args;
 
 #[test]
 fn error_invalid_option_short() {
-    immargs! {}
+    args! {}
 
     let args = ImmArgs::try_from(["test", "-i"]);
     assert!(matches!(&args, Err(Error::InvalidOption { option }) if option == "-i"));
@@ -12,7 +12,7 @@ fn error_invalid_option_short() {
 
 #[test]
 fn error_invalid_option_long() {
-    immargs! {}
+    args! {}
 
     let args = ImmArgs::try_from(["test", "--invalid"]);
     assert!(matches!(&args, Err(Error::InvalidOption { option }) if option == "--invalid"));
@@ -21,7 +21,7 @@ fn error_invalid_option_long() {
 
 #[test]
 fn error_invalid_argument() {
-    immargs! {}
+    args! {}
 
     let args = ImmArgs::try_from(["test", "invalid"]);
     assert!(matches!(&args, Err(Error::InvalidArgument { arg }) if arg == "invalid"));
@@ -30,7 +30,7 @@ fn error_invalid_argument() {
 
 #[test]
 fn error_invalid_command() {
-    immargs! {
+    args! {
         <command> Command {
             add,
             remove,
@@ -45,7 +45,7 @@ fn error_invalid_command() {
 
 #[test]
 fn error_missing_argument() {
-    immargs! {
+    args! {
         <value> String,
     }
 
@@ -56,7 +56,7 @@ fn error_missing_argument() {
 
 #[test]
 fn error_missing_value() {
-    immargs! {
+    args! {
         -f <value> String,
     }
 
@@ -67,7 +67,7 @@ fn error_missing_value() {
 
 #[test]
 fn error_unexpected_value() {
-    immargs! {
+    args! {
         -f,
     }
 
@@ -82,7 +82,7 @@ fn error_unexpected_value() {
 
 #[test]
 fn error_conflicting_arguments0() {
-    immargs! {
+    args! {
         --feature_a                !,
         --feature_b <mph> u16      !,
         --feature_c...             !,
@@ -103,7 +103,7 @@ fn error_conflicting_arguments0() {
 
 #[test]
 fn error_conflicting_arguments1() {
-    immargs! {
+    args! {
         --feature_a                !A,
         --feature_b <mph> u16      !A !C,
         --feature_c...             !B !C,
@@ -128,7 +128,7 @@ fn error_parsing_failed() {
     let parse_value = "ABC";
     let parse_error = parse_value.parse::<u64>().unwrap_err().to_string();
 
-    immargs! {
+    args! {
         --number <number> u64,
     }
 

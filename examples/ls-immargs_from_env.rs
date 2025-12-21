@@ -1,11 +1,11 @@
 // Example of what argument parsing for a program like "ls" could look like,
-// using immargs_from_env!
+// using args_from_env!
 
-use immargs::immargs_from_env;
+use immargs::args_from_env;
 use std::path::PathBuf;
 
 fn main() {
-    let args = immargs_from_env! {
+    let args = args_from_env! {
         -a --all             ?  "do not ignore entries starting with .",
         -l --long               "use a long listing format",
         -i --inode              "print the index number of each file",

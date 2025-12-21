@@ -6,11 +6,11 @@
 /// Example:
 ///
 /// ```
-/// use immargs::immargs_try_from;
+/// use immargs::args_try_from;
 ///
 /// let cmd_line_args = ["test", "-l8", "src", "dest"];
 ///
-/// let args = immargs_try_from! {
+/// let args = args_try_from! {
 ///     cmd_line_args,
 ///     --force               "overwrite destination",
 ///     -l --log <level> u8   "set log level",
@@ -20,13 +20,13 @@
 /// };
 ///```
 #[macro_export]
-macro_rules! immargs_try_from {
+macro_rules! args_try_from {
     ($args:expr, $($spec:tt)*) => {{
-        ::immargs::immargs! {
-            ImmArgs,
+        ::immargs::args! {
+            Args,
             $($spec)*
         }
-        ImmArgs::try_from($args)
+        Args::try_from($args)
     }};
 }
 
@@ -38,9 +38,9 @@ macro_rules! immargs_try_from {
 /// Example:
 ///
 /// ```no_run
-/// use immargs::immargs_try_from_env;
+/// use immargs::args_try_from_env;
 ///
-/// let args = immargs_try_from_env! {
+/// let args = args_try_from_env! {
 ///     --force               "overwrite destination",
 ///     -l --log <level> u8   "set log level",
 ///     -h --help             "print help message",
@@ -49,13 +49,13 @@ macro_rules! immargs_try_from {
 /// };
 /// ```
 #[macro_export]
-macro_rules! immargs_try_from_env {
+macro_rules! args_try_from_env {
     ($($spec:tt)*) => {{
-        ::immargs::immargs! {
-            ImmArgs,
+        ::immargs::args! {
+            Args,
             $($spec)*
         }
-        ImmArgs::try_from_env()
+        Args::try_from_env()
     }};
 }
 
@@ -66,11 +66,11 @@ macro_rules! immargs_try_from_env {
 /// Example:
 ///
 /// ```
-/// use immargs::immargs_from;
+/// use immargs::args_from;
 ///
 /// let cmd_line_args = ["test", "-l8", "src", "dest"];
 ///
-/// let args = immargs_from! {
+/// let args = args_from! {
 ///     cmd_line_args,
 ///     --force               "overwrite destination",
 ///     -l --log <level> u8   "set log level",
@@ -80,13 +80,13 @@ macro_rules! immargs_try_from_env {
 /// };
 /// ```
 #[macro_export]
-macro_rules! immargs_from {
+macro_rules! args_from {
     ($args:expr, $($spec:tt)*) => {{
-        ::immargs::immargs! {
-            ImmArgs,
+        ::immargs::args! {
+            Args,
             $($spec)*
         }
-        ImmArgs::from($args)
+        Args::from($args)
     }};
 }
 
@@ -98,9 +98,9 @@ macro_rules! immargs_from {
 /// Example:
 ///
 /// ```no_run
-/// use immargs::immargs_from_env;
+/// use immargs::args_from_env;
 ///
-/// let args = immargs_from_env! {
+/// let args = args_from_env! {
 ///     --force               "overwrite destination",
 ///     -l --log <level> u8   "set log level",
 ///     -h --help             "print help message",
@@ -109,12 +109,12 @@ macro_rules! immargs_from {
 /// };
 /// ```
 #[macro_export]
-macro_rules! immargs_from_env {
+macro_rules! args_from_env {
     ($($spec:tt)*) => {{
-        ::immargs::immargs! {
-            ImmArgs,
+        ::immargs::args! {
+            Args,
             $($spec)*
         }
-        ImmArgs::from_env()
+        Args::from_env()
     }};
 }

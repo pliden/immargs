@@ -1,13 +1,13 @@
 // Example of what argument parsing for a program like "mv" could look like,
-// using immargs!
+// using args!
 //
 // Demonstrates that a variadic <src..> argument can be followed by a
 // non-variadic <dest>.
 
-use immargs::immargs;
+use immargs::args;
 use std::path::PathBuf;
 
-immargs! {
+args! {
     Args,
     -f --force        "do not prompt before overwriting",
     --version         "print version information",

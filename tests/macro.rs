@@ -1,12 +1,12 @@
 use immargs::Args;
-use immargs::immargs_from;
-use immargs::immargs_from_env;
-use immargs::immargs_try_from;
-use immargs::immargs_try_from_env;
+use immargs::args_from;
+use immargs::args_from_env;
+use immargs::args_try_from;
+use immargs::args_try_from_env;
 
 #[test]
-fn macro_immargs_from() {
-    let args = immargs_from! {
+fn macro_args_from() {
+    let args = args_from! {
         ["test", "-f", "list", "-v", "47"],
         -f --flag,
         <command> Command {
@@ -24,7 +24,7 @@ fn macro_immargs_from() {
     }
 
     fn list(args: Args) {
-        let args = immargs_from! {
+        let args = args_from! {
             args,
             -v --value <num> u64,
         };
@@ -34,8 +34,8 @@ fn macro_immargs_from() {
 }
 
 #[test]
-fn macro_immargs_try_from() {
-    let args = immargs_try_from! {
+fn macro_args_try_from() {
+    let args = args_try_from! {
         ["test", "-f", "list"],
         -f --flag,
         <value> String,
@@ -48,8 +48,8 @@ fn macro_immargs_try_from() {
 }
 
 #[test]
-fn macro_immargs_from_env() {
-    let args = immargs_from_env! {
+fn macro_args_from_env() {
+    let args = args_from_env! {
         -f --flag,
     };
 
@@ -57,8 +57,8 @@ fn macro_immargs_from_env() {
 }
 
 #[test]
-fn macro_immargs_try_from_env() {
-    let args = immargs_try_from_env! {
+fn macro_args_try_from_env() {
+    let args = args_try_from_env! {
         -f --flag,
     };
 

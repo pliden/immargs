@@ -1,13 +1,13 @@
 // Example of what argument parsing for a program like "git" could look like,
-// using immargs!
+// using args!
 //
 // Demonstrates short-/long-options, (sub)commands, variadic arguments,
 // conflicting arguments, etc.
 
-use immargs::immargs;
+use immargs::args;
 use std::path::PathBuf;
 
-immargs! {
+args! {
     MainArgs,
     -C --dir <path> PathBuf     "set working directory",
     --version                   "print version information",
@@ -20,7 +20,7 @@ immargs! {
     },
 }
 
-immargs! {
+args! {
     CloneArgs,
     --progress                  "enable progress reporting",
     -n --no_checkout            "don't create a checkout",
@@ -29,7 +29,7 @@ immargs! {
     [<dir>] PathBuf             "target directory",
 }
 
-immargs! {
+args! {
     AddArgs,
     -A --all                 ?  "add changes from all tracked and untracked files",
     -u --update              ?  "update tracked files",
@@ -37,7 +37,7 @@ immargs! {
     [<pathspec>...] PathBuf  ?  "file(s) to add/update",
 }
 
-immargs! {
+args! {
     MoveArgs,
     -f --force                  "force move/rename even if target exists",
     -h --help                   "print help message",
@@ -45,7 +45,7 @@ immargs! {
     <destination> PathBuf       "target file name or destination directory",
 }
 
-immargs! {
+args! {
     CommitArgs,
     -a --all                 ?  "commit all changed files",
     --amend                     "amend previous commit",

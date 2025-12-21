@@ -1,8 +1,8 @@
-use immargs::immargs;
+use immargs::args;
 
 #[test]
 fn non_option_required() {
-    immargs! {
+    args! {
         <hello> String,
         <world> String,
     }
@@ -14,7 +14,7 @@ fn non_option_required() {
 
 #[test]
 fn non_option_optional() {
-    immargs! {
+    args! {
         [<hello>] String,
         [<world>] String,
     }
@@ -26,7 +26,7 @@ fn non_option_optional() {
 
 #[test]
 fn non_option_mixed() {
-    immargs! {
+    args! {
         <value0> String,
         <value1> String,
         [<value2>] String,
@@ -42,7 +42,7 @@ fn non_option_mixed() {
 
 #[test]
 fn non_option_required_variadic() {
-    immargs! {
+    args! {
         <value>... String,
     }
 
@@ -54,7 +54,7 @@ fn non_option_required_variadic() {
 
 #[test]
 fn non_option_optional_variadic() {
-    immargs! {
+    args! {
         [<value>...] String,
     }
 
@@ -66,7 +66,7 @@ fn non_option_optional_variadic() {
 
 #[test]
 fn non_option_required_variadic_redistribute0() {
-    immargs! {
+    args! {
         <value0> u64,
         <value1>... String,
         <value2> u64,
@@ -81,7 +81,7 @@ fn non_option_required_variadic_redistribute0() {
 
 #[test]
 fn non_option_required_variadic_redistribute1() {
-    immargs! {
+    args! {
         <value0>... u64,
         <value1> u64,
         <value2> u64,
@@ -98,7 +98,7 @@ fn non_option_required_variadic_redistribute1() {
 
 #[test]
 fn non_option_optional_variadic_redistribute0() {
-    immargs! {
+    args! {
         [<value0>...] u64,
         [<value1>] u64,
         [<value2>] u64,
@@ -112,7 +112,7 @@ fn non_option_optional_variadic_redistribute0() {
 
 #[test]
 fn non_option_optional_variadic_redistribute1() {
-    immargs! {
+    args! {
         [<value0>...] u64,
         [<value1>] u64,
         [<value2>] u64,
@@ -127,7 +127,7 @@ fn non_option_optional_variadic_redistribute1() {
 
 #[test]
 fn non_option_optional_variadic_redistribute2() {
-    immargs! {
+    args! {
         [<value0>...] u64,
         [<value1>] u64,
         [<value2>] u64,
@@ -142,7 +142,7 @@ fn non_option_optional_variadic_redistribute2() {
 
 #[test]
 fn non_option_mixed_variadic_redistribute() {
-    immargs! {
+    args! {
         <value0>... u64,
         <value1> u64,
         [<value2>] u64,
@@ -159,7 +159,7 @@ fn non_option_mixed_variadic_redistribute() {
 
 #[test]
 fn non_option_command_required() {
-    immargs! {
+    args! {
         <command> Command {
             add,
             remove,
@@ -180,7 +180,7 @@ fn non_option_command_required() {
 
 #[test]
 fn non_option_command_optional() {
-    immargs! {
+    args! {
         [<command>] Command {
             add,
             remove,
@@ -201,7 +201,7 @@ fn non_option_command_optional() {
 
 #[test]
 fn non_option_command_alias() {
-    immargs! {
+    args! {
         <command> Command {
             add,
             remove,
