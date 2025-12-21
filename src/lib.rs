@@ -419,7 +419,7 @@ impl Args {
     }
 
     #[inline]
-    fn peek(&mut self) -> Option<&String> {
+    fn peek(&self) -> Option<&String> {
         self.0.front()
     }
 
