@@ -371,7 +371,7 @@ fn help(ir: &Ir) -> Option<TokenStream> {
             }
         }
 
-        usage1.push_str("\n\n");
+        usage1.push('\n');
         (usage0, usage1)
     }
 
@@ -383,7 +383,7 @@ fn help(ir: &Ir) -> Option<TokenStream> {
         let mut section = vec![];
 
         if !help.is_empty() {
-            section.push(format!("{title}:\n"));
+            section.push(format!("\n{title}:\n"));
 
             for (help0, help1) in help {
                 match help1 {
@@ -391,8 +391,6 @@ fn help(ir: &Ir) -> Option<TokenStream> {
                     None => section.push(format!("   {help0}\n")),
                 }
             }
-
-            section.last_mut().unwrap().push('\n');
         }
 
         section

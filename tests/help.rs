@@ -23,7 +23,6 @@ fn help_empty() {
 
         options:
            -h, --help     Print help message
-
     "};
 
     let args = ImmArgs::try_from(["test", "-h"]);
@@ -51,7 +50,6 @@ fn help_option() {
            --ddd <value>         Help ddd
            -e, --eee <value>     Help eee
            -h, --help            Print help message
-
     "};
 
     let args = ImmArgs::try_from(["test", "-h"]);
@@ -75,7 +73,6 @@ fn help_non_option_required() {
         arguments:
            <aaa>          Help aaa
            <bbb>...       Help bbb
-
     "};
 
     let args = ImmArgs::try_from(["test", "-h"]);
@@ -99,7 +96,6 @@ fn help_non_option_optional() {
         arguments:
            [<aaa>]        Help aaa
            [<bbb>...]     Help bbb
-
     "};
 
     let args = ImmArgs::try_from(["test", "-h"]);
@@ -119,7 +115,6 @@ fn help_non_option_no_help() {
 
         options:
            -h, --help     Print help message
-
     "};
 
     let args = ImmArgs::try_from(["test", "-h"]);
@@ -150,7 +145,6 @@ fn help_non_option_command() {
            add             Add file(s)
            remove, rm      Remove file(s)
            list, ls, l     List file(s)
-
     "};
 
     let args = ImmArgs::try_from(["test", "-h"]);
