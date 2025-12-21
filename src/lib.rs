@@ -344,8 +344,6 @@ pub use error::Error;
 pub use immargs_macros::immargs;
 use std::collections::VecDeque;
 use std::collections::vec_deque::IntoIter;
-use utils::from_args;
-use utils::try_from_args;
 
 mod arg;
 mod error;
@@ -361,11 +359,7 @@ pub mod __private {
     pub use crate::arg::parse;
     pub use crate::utils::bin_name;
     pub use crate::utils::from;
-    pub use crate::utils::from_args;
-    pub use crate::utils::from_env;
     pub use crate::utils::try_from;
-    pub use crate::utils::try_from_args;
-    pub use crate::utils::try_from_env;
 }
 
 /// Result returned by argument parser.
@@ -376,9 +370,34 @@ pub type Result<T> = std::result::Result<T, Error>;
 /// Users of `immargs` never explicitly call methods on this trait. This trait is public
 /// soley to enable [`Args::into()`] and [`Args::try_into()`] to seamelessly convert
 /// (sub)command arguments into an arguments `struct`.
-pub trait FromArgs: Sized {
+pub trait ImmArgs: Sized {
     #[doc(hidden)]
-    fn from_args(args: Args) -> Result<Self>;
+    fn parse(args: Args) -> Result<Self>;
+
+    #[doc(hidden)]
+    fn try_from_raw<T: IntoIterator<Item: Into<String>>>(args: T) -> Result<Self> {
+        Self::parse(Args::from(args))
+    }
+
+    #[doc(hidden)]
+    fn try_from<T: IntoIterator<Item: Into<String>>>(args: T) -> Result<Option<Self>> {
+        __private::try_from(Self::parse(Args::from(args)))
+    }
+
+    #[doc(hidden)]
+    fn try_from_env() -> Result<Option<Self>> {
+        __private::try_from(Self::parse(Args::from_env()))
+    }
+
+    #[doc(hidden)]
+    fn from<T: IntoIterator<Item: Into<String>>>(args: T) -> Self {
+        __private::from(Self::parse(Args::from(args)))
+    }
+
+    #[doc(hidden)]
+    fn from_env() -> Self {
+        __private::from(Self::parse(Args::from_env()))
+    }
 }
 
 /// Command line arguments in raw form, i.e. not yet parsed.
@@ -387,7 +406,8 @@ pub struct Args(VecDeque<String>);
 
 impl Args {
     #[inline]
-    fn from_env() -> Self {
+    #[doc(hidden)]
+    pub fn from_env() -> Self {
         Self(
             std::env::args_os()
                 .map(|arg| match arg.into_string() {
@@ -492,8 +512,8 @@ impl Args {
     /// }
     /// ```
     #[inline]
-    pub fn into<T: FromArgs>(self) -> T {
-        from_args(self)
+    pub fn into<T: ImmArgs>(self) -> T {
+        T::from(self)
     }
 
     /// Converts (sub)command arguments into an arguments `struct`.
@@ -501,8 +521,8 @@ impl Args {
     /// Unlike [`Args::into()`], this method returns a [`Result`] to let applications
     /// implement custom error, `--help` and `--version` handling.
     #[inline]
-    pub fn try_into<T: FromArgs>(self) -> Result<T> {
-        try_from_args(self)
+    pub fn try_into<T: ImmArgs>(self) -> Result<Option<T>> {
+        T::try_from(self)
     }
 }
 

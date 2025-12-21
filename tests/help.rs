@@ -25,7 +25,7 @@ fn help_empty() {
            -h, --help     Print help message
     "};
 
-    let args = ImmArgs::try_from(["test", "-h"]);
+    let args = ImmArgs::try_from_raw(["test", "-h"]);
     assert_help!(&args, help);
 }
 
@@ -52,7 +52,7 @@ fn help_option() {
            -h, --help            Print help message
     "};
 
-    let args = ImmArgs::try_from(["test", "-h"]);
+    let args = ImmArgs::try_from_raw(["test", "-h"]);
     assert_help!(&args, help);
 }
 
@@ -75,7 +75,7 @@ fn help_non_option_required() {
            <bbb>...       Help bbb
     "};
 
-    let args = ImmArgs::try_from(["test", "-h"]);
+    let args = ImmArgs::try_from_raw(["test", "-h"]);
     assert_help!(&args, help);
 }
 
@@ -98,7 +98,7 @@ fn help_non_option_optional() {
            [<bbb>...]     Help bbb
     "};
 
-    let args = ImmArgs::try_from(["test", "-h"]);
+    let args = ImmArgs::try_from_raw(["test", "-h"]);
     assert_help!(&args, help);
 }
 
@@ -117,7 +117,7 @@ fn help_non_option_no_help() {
            -h, --help     Print help message
     "};
 
-    let args = ImmArgs::try_from(["test", "-h"]);
+    let args = ImmArgs::try_from_raw(["test", "-h"]);
     assert_help!(&args, help);
 }
 
@@ -147,6 +147,6 @@ fn help_non_option_command() {
            list, ls, l     List file(s)
     "};
 
-    let args = ImmArgs::try_from(["test", "-h"]);
+    let args = ImmArgs::try_from_raw(["test", "-h"]);
     assert_help!(&args, help);
 }

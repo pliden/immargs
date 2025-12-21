@@ -41,7 +41,7 @@ fn macro_immargs_try_from() {
         <value> String,
     };
 
-    let args = args.unwrap();
+    let args = args.unwrap().unwrap();
 
     assert!(args.flag);
     assert!(args.value == "list");
@@ -62,7 +62,7 @@ fn macro_immargs_try_from_env() {
         -f --flag,
     };
 
-    let args = args.unwrap();
+    let args = args.unwrap().unwrap();
 
     assert!(!args.flag);
 }

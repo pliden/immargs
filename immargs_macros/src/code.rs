@@ -170,8 +170,8 @@ pub fn emit(ir: Ir) -> Result<TokenStream> {
 
         #[allow(unused)]
         #[automatically_derived]
-        impl ::immargs::FromArgs for #ident {
-            fn from_args(mut args: ::immargs::Args) -> ::immargs::Result<Self> {
+        impl ::immargs::ImmArgs for #ident {
+            fn parse(mut args: ::immargs::Args) -> ::immargs::Result<Self> {
                 use ::immargs::__private;
                 #version
                 let bin_name = __private::bin_name(&mut args);
@@ -188,20 +188,24 @@ pub fn emit(ir: Ir) -> Result<TokenStream> {
         #[allow(unused)]
         #[automatically_derived]
         impl #ident {
-            pub fn try_from<T: IntoIterator<Item: Into<String>>>(args: T) -> ::immargs::Result<Self> {
-                ::immargs::__private::try_from(args)
+            pub fn try_from_raw<T: IntoIterator<Item: Into<String>>>(args: T) -> ::immargs::Result<Self> {
+                <Self as ::immargs::ImmArgs>::try_from_raw(args)
             }
 
-            pub fn try_from_env() -> ::immargs::Result<Self> {
-                ::immargs::__private::try_from_env()
+            pub fn try_from<T: IntoIterator<Item: Into<String>>>(args: T) -> ::immargs::Result<Option<Self>> {
+                <Self as ::immargs::ImmArgs>::try_from(args)
+            }
+
+            pub fn try_from_env() -> ::immargs::Result<Option<Self>> {
+                <Self as ::immargs::ImmArgs>::try_from_env()
             }
 
             pub fn from<T: IntoIterator<Item: Into<String>>>(args: T) -> Self {
-                ::immargs::__private::from(args)
+                <Self as ::immargs::ImmArgs>::from(args)
             }
 
             pub fn from_env() -> Self {
-                ::immargs::__private::from_env()
+                <Self as ::immargs::ImmArgs>::from_env()
             }
         }
     })
