@@ -1,3 +1,9 @@
+## 0.1.3
+
+* Removed `imm`-prefix from macros.
+* Changed default struct name from `ImmArgs` to `Args`.
+* Various cleanups.
+
 ## 0.1.2
 
 * Updated documentation.
