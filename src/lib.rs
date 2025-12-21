@@ -506,6 +506,12 @@ impl Args {
     }
 }
 
+impl Clone for Args {
+    fn clone(&self) -> Self {
+        Self(self.0.clone())
+    }
+}
+
 impl IntoIterator for Args {
     type Item = String;
     type IntoIter = IntoIter<Self::Item>;
