@@ -5,7 +5,6 @@ use immargs::args;
 use std::path::PathBuf;
 
 args! {
-    Args,
     -a --all             ?  "do not ignore entries starting with .",
     -l --long               "use a long listing format",
     -i --inode              "print the index number of each file",

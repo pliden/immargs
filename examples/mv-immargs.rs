@@ -8,7 +8,6 @@ use immargs::args;
 use std::path::PathBuf;
 
 args! {
-    Args,
     -f --force        "do not prompt before overwriting",
     --version         "print version information",
     -h --help         "print help message",

@@ -45,7 +45,7 @@
 //! specification. The fields are populated with the corresponding values from the command
 //! line. For the example above, the returned `struct` looks like this:
 //! ```
-//! pub struct ImmArgs {
+//! pub struct Args {
 //!     pub force: bool,
 //!     pub log: Option<u8>,
 //!     pub src: Vec<String>,

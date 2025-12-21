@@ -7,7 +7,7 @@ fn non_option_required() {
         <world> String,
     }
 
-    let args = ImmArgs::from(["test", "hello", "world"]);
+    let args = Args::from(["test", "hello", "world"]);
     assert!(args.hello == "hello");
     assert!(args.world == "world");
 }
@@ -19,7 +19,7 @@ fn non_option_optional() {
         [<world>] String,
     }
 
-    let args = ImmArgs::from(["test", "hello"]);
+    let args = Args::from(["test", "hello"]);
     assert!(matches!(args.hello, Some(s) if s == "hello"));
     assert!(args.world.is_none());
 }
@@ -33,7 +33,7 @@ fn non_option_mixed() {
         [<value3>] String,
     }
 
-    let args = ImmArgs::from(["test", "required0", "required1", "optional0"]);
+    let args = Args::from(["test", "required0", "required1", "optional0"]);
     assert!(args.value0 == "required0");
     assert!(args.value1 == "required1");
     assert!(matches!(args.value2, Some(s) if s == "optional0"));
@@ -46,7 +46,7 @@ fn non_option_required_variadic() {
         <value>... String,
     }
 
-    let args = ImmArgs::from(["test", "hello", "world"]);
+    let args = Args::from(["test", "hello", "world"]);
     assert!(args.value.len() == 2);
     assert!(args.value[0] == "hello");
     assert!(args.value[1] == "world");
@@ -58,7 +58,7 @@ fn non_option_optional_variadic() {
         [<value>...] String,
     }
 
-    let args = ImmArgs::from(["test", "hello", "world"]);
+    let args = Args::from(["test", "hello", "world"]);
     assert!(args.value.len() == 2);
     assert!(args.value[0] == "hello");
     assert!(args.value[1] == "world");
@@ -72,7 +72,7 @@ fn non_option_required_variadic_redistribute0() {
         <value2> u64,
     }
 
-    let args = ImmArgs::from(["test", "0", "1", "2"]);
+    let args = Args::from(["test", "0", "1", "2"]);
     assert!(args.value0 == 0);
     assert!(args.value1.len() == 1);
     assert!(args.value1[0] == "1");
@@ -87,7 +87,7 @@ fn non_option_required_variadic_redistribute1() {
         <value2> u64,
     }
 
-    let args = ImmArgs::from(["test", "0", "1", "2", "3", "4"]);
+    let args = Args::from(["test", "0", "1", "2", "3", "4"]);
     assert!(args.value0.len() == 3);
     assert!(args.value0[0] == 0);
     assert!(args.value0[1] == 1);
@@ -104,7 +104,7 @@ fn non_option_optional_variadic_redistribute0() {
         [<value2>] u64,
     }
 
-    let args = ImmArgs::from(["test"]);
+    let args = Args::from(["test"]);
     assert!(args.value0.is_empty());
     assert!(args.value1.is_none());
     assert!(args.value2.is_none());
@@ -118,7 +118,7 @@ fn non_option_optional_variadic_redistribute1() {
         [<value2>] u64,
     }
 
-    let args = ImmArgs::from(["test", "0"]);
+    let args = Args::from(["test", "0"]);
     assert!(args.value0.len() == 1);
     assert!(args.value0[0] == 0);
     assert!(args.value1.is_none());
@@ -133,7 +133,7 @@ fn non_option_optional_variadic_redistribute2() {
         [<value2>] u64,
     }
 
-    let args = ImmArgs::from(["test", "0", "1"]);
+    let args = Args::from(["test", "0", "1"]);
     assert!(args.value0.len() == 1);
     assert!(args.value0[0] == 0);
     assert!(args.value1 == Some(1));
@@ -149,7 +149,7 @@ fn non_option_mixed_variadic_redistribute() {
         [<value3>] u64,
     }
 
-    let args = ImmArgs::from(["test", "0", "1", "2"]);
+    let args = Args::from(["test", "0", "1", "2"]);
     assert!(args.value0.len() == 1);
     assert!(args.value0[0] == 0);
     assert!(args.value1 == 1);
@@ -167,7 +167,7 @@ fn non_option_command_required() {
         },
     }
 
-    let args = ImmArgs::from(["test", "list", "arg0", "arg1"]);
+    let args = Args::from(["test", "list", "arg0", "arg1"]);
     let Command::List(args) = args.command else {
         panic!();
     };
@@ -188,7 +188,7 @@ fn non_option_command_optional() {
         },
     }
 
-    let args = ImmArgs::from(["test", "list", "arg0", "arg1"]);
+    let args = Args::from(["test", "list", "arg0", "arg1"]);
     let Some(Command::List(args)) = args.command else {
         panic!();
     };
@@ -209,7 +209,7 @@ fn non_option_command_alias() {
         },
     }
 
-    let args = ImmArgs::from(["test", "ls", "arg0", "arg1"]);
+    let args = Args::from(["test", "ls", "arg0", "arg1"]);
     let Command::List(args) = args.command else {
         panic!();
     };

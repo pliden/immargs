@@ -6,7 +6,7 @@ fn option_single_short_char() {
         -f,
     }
 
-    let args = ImmArgs::from(["test", "-f"]);
+    let args = Args::from(["test", "-f"]);
     assert!(args.f);
 }
 
@@ -16,7 +16,7 @@ fn option_single_short_int() {
         -_1,
     }
 
-    let args = ImmArgs::from(["test", "-1"]);
+    let args = Args::from(["test", "-1"]);
     assert!(args._1);
 }
 
@@ -26,7 +26,7 @@ fn option_multiple_shorts() {
         -f -_1,
     }
 
-    let args = ImmArgs::from(["test", "-1"]);
+    let args = Args::from(["test", "-1"]);
     assert!(args.f);
 }
 
@@ -36,7 +36,7 @@ fn option_single_long() {
         --flag,
     }
 
-    let args = ImmArgs::from(["test", "--flag"]);
+    let args = Args::from(["test", "--flag"]);
     assert!(args.flag);
 }
 
@@ -46,7 +46,7 @@ fn option_multiple_longs() {
         --flag --alias,
     }
 
-    let args = ImmArgs::from(["test", "--alias"]);
+    let args = Args::from(["test", "--alias"]);
     assert!(args.flag);
 }
 
@@ -56,7 +56,7 @@ fn option_short_and_long() {
         -f --flag,
     }
 
-    let args = ImmArgs::from(["test", "-f"]);
+    let args = Args::from(["test", "-f"]);
     assert!(args.flag);
 }
 
@@ -66,7 +66,7 @@ fn option_multiple_shorts_and_long() {
         -f -F --flag,
     }
 
-    let args = ImmArgs::from(["test", "-F"]);
+    let args = Args::from(["test", "-F"]);
     assert!(args.flag);
 }
 
@@ -76,7 +76,7 @@ fn option_variadic_on_value() {
         -f --flag...,
     }
 
-    let args = ImmArgs::from(["test", "--flag", "-f", "--flag"]);
+    let args = Args::from(["test", "--flag", "-f", "--flag"]);
     assert!(args.flag == 3);
 }
 
@@ -86,7 +86,7 @@ fn option_variadic_value() {
         -v --value... <value> String,
     }
 
-    let args = ImmArgs::from(["test", "--value", "hello", "-v", "world"]);
+    let args = Args::from(["test", "--value", "hello", "-v", "world"]);
     assert!(args.value.len() == 2);
     assert!(args.value[0] == "hello");
     assert!(args.value[1] == "world");

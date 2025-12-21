@@ -9,7 +9,7 @@ fn type_none() {
         --flag,
     }
 
-    let args = ImmArgs::from(["test", "--flag"]);
+    let args = Args::from(["test", "--flag"]);
     assert!(args.flag);
 }
 
@@ -19,7 +19,7 @@ fn type_bool() {
         --value <value> bool,
     }
 
-    let args = ImmArgs::from(["test", "--value", "true"]);
+    let args = Args::from(["test", "--value", "true"]);
     assert!(args.value.unwrap());
 }
 
@@ -29,7 +29,7 @@ fn type_char() {
         --value <value> char,
     }
 
-    let args = ImmArgs::from(["test", "--value", "X"]);
+    let args = Args::from(["test", "--value", "X"]);
     assert!(args.value.unwrap() == 'X');
 }
 
@@ -39,7 +39,7 @@ fn type_u8() {
         --value <value> u8,
     }
 
-    let args = ImmArgs::from(["test", "--value", "47"]);
+    let args = Args::from(["test", "--value", "47"]);
     assert!(args.value.unwrap() == 47);
 }
 
@@ -49,7 +49,7 @@ fn type_u16() {
         --value <value> u16,
     }
 
-    let args = ImmArgs::from(["test", "--value", "47"]);
+    let args = Args::from(["test", "--value", "47"]);
     assert!(args.value.unwrap() == 47);
 }
 
@@ -59,7 +59,7 @@ fn type_u32() {
         --value <value> u32,
     }
 
-    let args = ImmArgs::from(["test", "--value", "47"]);
+    let args = Args::from(["test", "--value", "47"]);
     assert!(args.value.unwrap() == 47);
 }
 
@@ -69,7 +69,7 @@ fn type_u64() {
         --value <value> u64,
     }
 
-    let args = ImmArgs::from(["test", "--value", "47"]);
+    let args = Args::from(["test", "--value", "47"]);
     assert!(args.value.unwrap() == 47);
 }
 
@@ -79,7 +79,7 @@ fn type_u128() {
         --value <value> u128,
     }
 
-    let args = ImmArgs::from(["test", "--value", "47"]);
+    let args = Args::from(["test", "--value", "47"]);
     assert!(args.value.unwrap() == 47);
 }
 
@@ -89,7 +89,7 @@ fn type_i8() {
         --value <value> i8,
     }
 
-    let args = ImmArgs::from(["test", "--value", "-47"]);
+    let args = Args::from(["test", "--value", "-47"]);
     assert!(args.value.unwrap() == -47);
 }
 
@@ -99,7 +99,7 @@ fn type_i16() {
         --value <value> i16,
     }
 
-    let args = ImmArgs::from(["test", "--value", "-47"]);
+    let args = Args::from(["test", "--value", "-47"]);
     assert!(args.value.unwrap() == -47);
 }
 
@@ -109,7 +109,7 @@ fn type_i32() {
         --value <value> i32,
     }
 
-    let args = ImmArgs::from(["test", "--value", "-47"]);
+    let args = Args::from(["test", "--value", "-47"]);
     assert!(args.value.unwrap() == -47);
 }
 
@@ -119,7 +119,7 @@ fn type_i64() {
         --value <value> i64,
     }
 
-    let args = ImmArgs::from(["test", "--value", "-47"]);
+    let args = Args::from(["test", "--value", "-47"]);
     assert!(args.value.unwrap() == -47);
 }
 
@@ -129,7 +129,7 @@ fn type_i128() {
         --value <value> i128,
     }
 
-    let args = ImmArgs::from(["test", "--value", "-47"]);
+    let args = Args::from(["test", "--value", "-47"]);
     assert!(args.value.unwrap() == -47);
 }
 
@@ -139,7 +139,7 @@ fn type_f32() {
         --value <value> f32,
     }
 
-    let args = ImmArgs::from(["test", "--value", "1.25"]);
+    let args = Args::from(["test", "--value", "1.25"]);
     assert!(args.value.unwrap() == 1.25);
 }
 
@@ -149,7 +149,7 @@ fn type_f64() {
         --value <value> f64,
     }
 
-    let args = ImmArgs::from(["test", "--value", "1.25"]);
+    let args = Args::from(["test", "--value", "1.25"]);
     assert!(args.value.unwrap() == 1.25);
 }
 
@@ -159,7 +159,7 @@ fn type_string() {
         --value <value> String,
     }
 
-    let args = ImmArgs::from(["test", "--value", "hello"]);
+    let args = Args::from(["test", "--value", "hello"]);
     assert!(args.value.unwrap() == "hello");
 }
 
@@ -169,7 +169,7 @@ fn type_os_string() {
         --value <value> OsString,
     }
 
-    let args = ImmArgs::from(["test", "--value", "hello"]);
+    let args = Args::from(["test", "--value", "hello"]);
     assert!(args.value.unwrap() == "hello");
 }
 
@@ -179,7 +179,7 @@ fn type_pathbuf() {
         --value <value> PathBuf,
     }
 
-    let args = ImmArgs::from(["test", "--value", "hello"]);
+    let args = Args::from(["test", "--value", "hello"]);
     assert!(args.value.unwrap().to_str().unwrap() == "hello");
 }
 
@@ -189,6 +189,6 @@ fn type_ipv4addr() {
         --value <value> Ipv4Addr,
     }
 
-    let args = ImmArgs::from(["test", "--value", "127.0.0.1"]);
+    let args = Args::from(["test", "--value", "127.0.0.1"]);
     assert!(args.value.unwrap() == Ipv4Addr::new(127, 0, 0, 1));
 }

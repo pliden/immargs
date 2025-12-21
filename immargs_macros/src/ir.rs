@@ -98,7 +98,7 @@ fn normalize_ident(ident: &Ident) -> String {
 }
 
 fn ident(ast: &Ast) -> Ident {
-    ast.ident.clone().unwrap_or(format_ident!("ImmArgs"))
+    ast.ident.clone().unwrap_or(format_ident!("Args"))
 }
 
 fn options(ast: &Ast, verify: &mut Verify) -> Result<Vec<IrOption>> {
