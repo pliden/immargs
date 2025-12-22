@@ -81,12 +81,12 @@ args! {
     <file>... String       "file(s) to remove",       // "..." means it's a variadic argument
 }
 
-args!(
+args! {
     CommitArgs,
     -a --amend             "amend latest commit",
     -h --help              "print help message",
     [<message>] String     "commit message",          // "[ ]" means it's an optional argument
-);
+}
 
 fn main() {
     let main_args = MainArgs::from_env();
