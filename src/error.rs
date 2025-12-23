@@ -68,6 +68,8 @@ pub enum Error {
     },
 }
 
+impl std::error::Error for Error {}
+
 impl Display for Error {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         match self {
