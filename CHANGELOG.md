@@ -1,3 +1,8 @@
+## 0.1.4
+
+* `Error` now implements `std::error::Error`.
+* Documentation fixes.
+
 ## 0.1.3
 
 * Removed `imm`-prefix from macros.
