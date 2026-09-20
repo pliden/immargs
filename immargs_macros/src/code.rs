@@ -170,9 +170,9 @@ pub fn emit(ir: Ir) -> Result<TokenStream> {
 
         #[allow(unused)]
         #[automatically_derived]
-        impl ::immargs::ImmArgs for #ident {
-            fn parse(mut args: ::immargs::Args) -> ::immargs::Result<Self> {
-                use ::immargs::__private;
+        impl immargs::ImmArgs for #ident {
+            fn parse(mut args: immargs::Args) -> immargs::Result<Self> {
+                use immargs::__private;
                 #version
                 let bin_name = __private::bin_name(&mut args);
                 #help
@@ -188,24 +188,24 @@ pub fn emit(ir: Ir) -> Result<TokenStream> {
         #[allow(unused)]
         #[automatically_derived]
         impl #ident {
-            pub fn try_from_raw<T: IntoIterator<Item: Into<String>>>(args: T) -> ::immargs::Result<Self> {
-                <Self as ::immargs::ImmArgs>::try_from_raw(args)
+            pub fn try_from_raw<T: IntoIterator<Item: Into<String>>>(args: T) -> immargs::Result<Self> {
+                <Self as immargs::ImmArgs>::try_from_raw(args)
             }
 
-            pub fn try_from<T: IntoIterator<Item: Into<String>>>(args: T) -> ::immargs::Result<Option<Self>> {
-                <Self as ::immargs::ImmArgs>::try_from(args)
+            pub fn try_from<T: IntoIterator<Item: Into<String>>>(args: T) -> immargs::Result<Option<Self>> {
+                <Self as immargs::ImmArgs>::try_from(args)
             }
 
-            pub fn try_from_env() -> ::immargs::Result<Option<Self>> {
-                <Self as ::immargs::ImmArgs>::try_from_env()
+            pub fn try_from_env() -> immargs::Result<Option<Self>> {
+                <Self as immargs::ImmArgs>::try_from_env()
             }
 
             pub fn from<T: IntoIterator<Item: Into<String>>>(args: T) -> Self {
-                <Self as ::immargs::ImmArgs>::from(args)
+                <Self as immargs::ImmArgs>::from(args)
             }
 
             pub fn from_env() -> Self {
-                <Self as ::immargs::ImmArgs>::from_env()
+                <Self as immargs::ImmArgs>::from_env()
             }
         }
     })
@@ -244,7 +244,7 @@ fn command(ir: &Ir) -> Option<TokenStream> {
         .map(|command| {
             let first = &command.names.first().unwrap();
             let variant = variant(first);
-            quote! { #variant(::immargs::Args), }
+            quote! { #variant(immargs::Args), }
         })
         .collect::<Vec<_>>();
 
@@ -283,25 +283,25 @@ fn command(ir: &Ir) -> Option<TokenStream> {
         }
         #[allow(unused)]
         #[automatically_derived]
-        impl ::immargs::__private::Command for #ty {
-            fn normalize(command: &str) -> ::immargs::Result<&'static str> {
+        impl immargs::__private::Command for #ty {
+            fn normalize(command: &str) -> immargs::Result<&'static str> {
                 match command {
                     #(#match_normalize)*
-                    _ => Err(::immargs::Error::InvalidCommand { arg: command.to_string() }),
+                    _ => Err(immargs::Error::InvalidCommand { arg: command.to_string() }),
                 }
             }
 
-            fn from(command: &str, args: ::immargs::Args) -> ::immargs::Result<Self> {
+            fn from(command: &str, args: immargs::Args) -> immargs::Result<Self> {
                 match command {
                     #(#match_from)*
-                    _ => Err(::immargs::Error::InvalidCommand { arg: command.to_string() }),
+                    _ => Err(immargs::Error::InvalidCommand { arg: command.to_string() }),
                 }
             }
         }
         #[allow(unused)]
         #[automatically_derived]
         impl #ty {
-            pub fn into_str(self) -> (&'static str, ::immargs::Args) {
+            pub fn into_str(self) -> (&'static str, immargs::Args) {
                 match self {
                     #(#match_into_str)*
                 }

@@ -22,7 +22,7 @@
 #[macro_export]
 macro_rules! args_try_from {
     ($args:expr, $($spec:tt)*) => {{
-        ::immargs::args! {
+        $crate::args! {
             Args,
             $($spec)*
         }
@@ -51,7 +51,7 @@ macro_rules! args_try_from {
 #[macro_export]
 macro_rules! args_try_from_env {
     ($($spec:tt)*) => {{
-        ::immargs::args! {
+        $crate::args! {
             Args,
             $($spec)*
         }
@@ -82,7 +82,7 @@ macro_rules! args_try_from_env {
 #[macro_export]
 macro_rules! args_from {
     ($args:expr, $($spec:tt)*) => {{
-        ::immargs::args! {
+        $crate::args! {
             Args,
             $($spec)*
         }
@@ -111,7 +111,7 @@ macro_rules! args_from {
 #[macro_export]
 macro_rules! args_from_env {
     ($($spec:tt)*) => {{
-        ::immargs::args! {
+        $crate::args! {
             Args,
             $($spec)*
         }
