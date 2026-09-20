@@ -701,6 +701,11 @@ fn check_conflicts_and_choices(
         }
     }
 
+    // Sort choices so that the same set of alternatives
+    // are always included in the error.
+    let mut choices = choices.into_iter().collect::<Vec<_>>();
+    choices.sort();
+
     for (choice, alternatives) in choices {
         if !conflicts.contains_key(choice) {
             let alternatives = alternatives
