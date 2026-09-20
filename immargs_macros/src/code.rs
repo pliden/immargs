@@ -160,7 +160,7 @@ pub fn emit(ir: Ir) -> Result<TokenStream> {
     let command = command(&ir);
 
     Ok(quote! {
-        #[allow(unused)]
+        #[allow(unused, nonstandard_style)]
         #[derive(Debug)]
         pub struct #ident {
             #(#declare_fields)*
