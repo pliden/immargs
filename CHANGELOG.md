@@ -1,3 +1,7 @@
+## 0.1.5
+
+* Minor fixes and cleanups.
+
 ## 0.1.4
 
 * `Error` now implements `std::error::Error`.
